@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <!-- 用module引入JS为什么快？chrome浏览器支持ES module语法（import语法），以往会编译为es5的require语法才能使用 -->
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Vite + React + TS</title>
+    </head>
+    <body>
+        <div id="root"></div>
+        <!-- 用module引入JS为什么快？以往会编译为es5的require语法才能使用，用module模块化可以相当于直接引入js，而不用先编译 -->
+        <script type="module" src="/src/main.tsx"></script>
+    </body>
 </html>
