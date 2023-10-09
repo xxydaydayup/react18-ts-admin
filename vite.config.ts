@@ -10,7 +10,7 @@ export default defineConfig({
     publicDir: 'public', // 静态资源目录
     resolve: {
         alias: {
-            '@': path.resolve(__dirname, 'src')
+            '@': path.resolve(__dirname, './src')
         }
     },
     server: {

@@ -1,20 +1,10 @@
-import { useState } from 'react'
+import { useRef, useState, useTransition } from 'react'
+import { RouterProvider } from 'react-router-dom'
 import './App.css'
+import router from './router'
 
 function App() {
-    const [count, setCount] = useState(0)
-    const add = () => {
-        setCount(2)
-    }
-    return (
-        <>
-            <div>
-                <p>这是main分支</p>
-                {count}
-                <button onClick={add}>add</button>
-            </div>
-        </>
-    )
+    return <RouterProvider router={router} />
 }
 
 export default App
