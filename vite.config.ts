@@ -15,14 +15,15 @@ export default defineConfig({
     },
     server: {
         // host: 'localhost',
-        port: 8080,
-        proxy: {
-            '/api': {
-                target: 'http://api-driver.marsview.cc',
-                changeOrigin: true,
-                rewrite: path => path.replace(/^\/api/, '')
-            }
-        }
+        port: 8080
+        // 当使用fastmock地址时，proxy不生效，存在与否不影响
+        // proxy: {
+        //     '/api': {
+        //         target: 'http://api-driver.marsview.cc',
+        //         changeOrigin: true,
+        //         rewrite: path => path.replace(/^\/api/, '')
+        //     }
+        // }
     },
     plugins: [react()]
 })

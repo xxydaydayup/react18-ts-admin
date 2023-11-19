@@ -1,0 +1,35 @@
+.login {
+    width: 100vw;
+    height: 100vh;
+    // 从public下面取图片
+    background: url('/login_bg.jpeg') no-repeat;
+    // 从assets中取照片
+    // background: url('@/assets/login_bg.jpeg') no-repeat;
+    // 多余的图片被裁掉
+    background-size: cover;
+    // 起始位置
+    background-position: center center;
+    position: relative;
+
+    // :global() 包裹的类名，不会被cssModule影响，可以直接用
+    // :global(.loginWrapper) {
+    //     background-color: #fff;
+    //     position: absolute;
+    //     top: 50%;
+    //     right: 10%;
+    //     width: 500px;
+    //     transform: translateY(-50%);
+    //     box-shadow: 0 10px 12px rgba(0, 0, 0, 0.1);
+    //     border-radius: 6px;
+    // }
+    .loginWrapper {
+        background-color: #fff;
+        position: absolute;
+        top: 50%;
+        right: 10%;
+        width: 500px;
+        transform: translateY(-50%);
+        box-shadow: 0 10px 12px rgba(0, 0, 0, 0.1);
+        border-radius: 6px;
+    }
+}

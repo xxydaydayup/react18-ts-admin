@@ -18,8 +18,14 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": "./",
+    "paths": {
+        // 这里配置了路径别名:1.可以防止ts语法报错.2.可以直接通过路径点进文件
+        // vite里配置路径别名，是为了防止编译报错
+        "@/*":["src/*"]
+    }
   },
-  "include": ["src"],
+  "include": ["src","typings.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
