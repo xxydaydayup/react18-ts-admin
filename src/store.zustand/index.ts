@@ -24,8 +24,13 @@ interface Store {
     count: number
     add: any
     token: string
+    collapsed: boolean
     userInfo: User.UserItem
     getUserInfo: any
+    updateToken: (token: string) => void
+    updateUserInfo: (userInfo: User.UserItem) => void
+    updateCollapsed: () => void
+    updateTheme: (isDark: boolean) => void
 }
 
 export const useStore = create<Store>()(
@@ -33,6 +38,7 @@ export const useStore = create<Store>()(
         persist(
             set => ({
                 count: 0,
+                collapsed: false,
                 add: () => set(state => ({ count: state.count + 1 })),
                 token: storage.get('token') || '',
                 userInfo: {},
@@ -48,7 +54,13 @@ export const useStore = create<Store>()(
                     } catch (error) {
                         console.log(error)
                     }
-                }
+                },
+                updateCollapsed: () =>
+                    set(state => {
+                        return {
+                            collapsed: !state.collapsed
+                        }
+                    })
             }),
             {
                 name: 'store',

@@ -14,10 +14,9 @@ import api from '@/api'
 const { Header, Content, Footer, Sider } = Layout
 
 const App: React.FC = () => {
-    const { getUserInfo } = useStore()
+    const { getUserInfo, collapsed } = useStore()
 
     useEffect(() => {
-        // userStore.getUserInfo()
         getUserInfo()
     }, [])
 
@@ -26,9 +25,9 @@ const App: React.FC = () => {
     } = theme.useToken()
 
     return (
-        <Watermark content='Ant Design'>
+        <Watermark content='Portal'>
             <Layout style={{ height: '100vh', border: '1px solid red' }}>
-                <Sider collapsed={false}>
+                <Sider collapsed={collapsed}>
                     <SiderMenu />
                 </Sider>
                 <Layout>

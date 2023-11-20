@@ -14,6 +14,7 @@ import Dashboard from '@/views/Dashboard'
 import Layout from '@/layout/index'
 import Welcome from '@/views/welcome'
 import UserList from '@/views/system/user'
+import Motion from '@/views/motion'
 // import { Layout } from 'antd'
 
 const router = [
@@ -40,6 +41,10 @@ const router = [
             {
                 path: '/userList',
                 element: <UserList />
+            },
+            {
+                path: '/motion',
+                element: <Motion />
             }
         ]
     },

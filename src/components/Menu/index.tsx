@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Menu } from 'antd'
 import {
     AppstoreOutlined,
@@ -11,23 +11,31 @@ import {
 } from '@ant-design/icons'
 import styles from './index.module.less'
 import { useNavigate } from 'react-router-dom'
+import { useStore } from '@/store.zustand'
 
 const SiderMenu = () => {
     const navigate = useNavigate()
+    const collapsed = useStore(state => state.collapsed)
+    const [selectedKeys, setSelectedKeys] = useState<string[]>([])
     const menuList = [
         {
             label: '工作台',
-            key: '1',
+            key: '/dashboard',
             icon: <AppstoreOutlined />
         },
         {
+            label: 'motion动画',
+            key: '/motion',
+            icon: <MailOutlined />
+        },
+        {
             label: '系统管理',
-            key: '2',
+            key: '/',
             icon: <MenuUnfoldOutlined />,
             children: [
                 {
                     label: '用户管理',
-                    key: '3',
+                    key: '/userList',
                     icon: <PieChartOutlined />
                 },
                 {
@@ -39,6 +47,12 @@ const SiderMenu = () => {
         }
     ]
 
+    const changeMenu = ({ key }: { key: string }) => {
+        // console.log(value)
+        setSelectedKeys([key])
+        navigate(key)
+    }
+
     const handleClickLogo = () => {
         navigate('/layout')
     }
@@ -46,18 +60,20 @@ const SiderMenu = () => {
         <div className={styles.navSide}>
             <div className={styles.logo} onClick={handleClickLogo}>
                 <img src='/logo.png' alt='logo' className={styles.img} />
-                <span>货拉拉</span>
+                {collapsed ? '' : <span>Portal</span>}
             </div>
             <Menu
                 mode='inline'
                 theme='dark'
+                onClick={changeMenu}
                 style={{
-                    width: 200,
-                    height: 'calc(100vh - 50px)'
+                    width: collapsed ? '80' : '200'
+                    // height: 'calc(100vh - 50px)'
                 }}
                 defaultSelectedKeys={['1']}
-                // selectedKeys={selectedKeys}
+                selectedKeys={selectedKeys}
                 // onClick={handleClickMenu}
+                inlineCollapsed={collapsed}
                 items={menuList}
             />
         </div>
