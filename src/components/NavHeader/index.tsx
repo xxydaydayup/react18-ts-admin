@@ -1,6 +1,6 @@
 import React from 'react'
 import type { MenuProps } from 'antd'
-import { DownOutlined, SmileOutlined, MenuFoldOutlined } from '@ant-design/icons'
+import { DownOutlined, SmileOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 import { Breadcrumb, Switch, Dropdown, Space, Button } from 'antd'
 import styles from './index.module.less'
 import storage from '@/utils/storage'
@@ -12,8 +12,18 @@ function NavHeader() {
     const navigate = useNavigate()
     const localtion = useLocation()
     const { userName, userEmail } = useStore(state => state.userInfo)
+    const { collapsed, updateCollapsed } = useStore(state => ({
+        collapsed: state.collapsed,
+        updateCollapsed: state.updateCollapsed
+    }))
+    // console.log(collapsed, updateCollapsed)
 
     // const { userName, userEmail } = userStore.userInfo
+
+    // 控制菜单图标关闭和展开
+    const toggleCollapsed = () => {
+        updateCollapsed()
+    }
     const breadList = [
         {
             title: '首页'
@@ -40,13 +50,16 @@ function NavHeader() {
             label: <span onClick={logout}>退出</span>
         }
     ]
-    const changeUserName = () => {
-        userStore.setUserInfo()
-    }
+    // const changeUserName = () => {
+    //     userStore.setUserInfo()
+    // }
     return (
         <div className={styles.navHeader}>
             <div className={styles.left}>
-                <MenuFoldOutlined />
+                <Button type='primary' onClick={toggleCollapsed}>
+                    {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                </Button>
+
                 <Breadcrumb items={breadList} />
             </div>
             <div className={styles.right}>
@@ -59,6 +72,8 @@ function NavHeader() {
     )
 }
 
+export default NavHeader
+
 // 没有observer后，store数据改变后，页面无法监听改变，同步
 // export default NavHeader
-export default observer(NavHeader)
+// export default observer(NavHeader)

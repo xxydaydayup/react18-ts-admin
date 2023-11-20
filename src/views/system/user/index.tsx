@@ -4,7 +4,7 @@ import type { ColumnsType } from 'antd/es/table'
 import { useEffect, useRef, useState } from 'react'
 import api from '@/api'
 import { formatDate } from '@/utils'
-// import CreateUser from './CreateUser'
+import CreateUser from './CreateUser'
 import { IAction } from '@/types/modal'
 // import { message } from '@/utils/AntdGlobal'
 import { useAntdTable } from 'ahooks'
@@ -12,147 +12,72 @@ import axios from 'axios'
 // import AuthButton from '@/components/AuthButton'
 import SearchForm from '@/components/SearchForm'
 
-const list = [
-    {
-        permissionList: {
-            checkedKeys: [
-                '6069c3f7341306f73b75fbfe',
-                '60a0e80d92ea01921486ecac',
-                '60a0e81c92ea01921486ecad',
-                '60a0e82592ea01921486ecae',
-                '60a0e83392ea01921486ecaf',
-                '63ecf8e9b58729211daea634',
-                '63ecfa68b58729211daea646',
-                '63ecfa74b58729211daea649'
-            ],
-            halfCheckedKeys: [
-                '6272009712eb226fad2f8e93',
-                '6069bec6b306e7f18dd72efd',
-                '63da0226a96e86702e4f2ca7',
-                '6069beb8b306e7f18dd72efc',
-                '6272005812eb226fad2f8e92'
-            ]
-        },
-        _id: '609781c15ccd183084f8ea3e',
-        updateTime: '2023-02-15T15:09:10.028Z',
-        createTime: '2021-05-09T06:30:57.489Z',
-        roleName: '产品经理',
-        remark: '产品专用',
-        createId: 1000002
-    },
-    {
-        permissionList: {
-            checkedKeys: [
-                '6069c3f7341306f73b75fbfe',
-                '60a0e80d92ea01921486ecac',
-                '60a0e81c92ea01921486ecad',
-                '60a0e82592ea01921486ecae',
-                '60a0e83392ea01921486ecaf',
-                '6083f63bc30e1188761493f4',
-                '60a0e84c92ea01921486ecb0',
-                '60a0e85392ea01921486ecb1',
-                '60a0e85c92ea01921486ecb2'
-            ],
-            halfCheckedKeys: ['6069bec6b306e7f18dd72efd', '6083d756c30e1188761493f2', '6069beb8b306e7f18dd72efc']
-        },
-        _id: '63bc3175300732c27697f1df',
-        roleName: '研发',
-        remark: '研发专用',
-        updateTime: '2023-01-09T13:45:39.872Z',
-        createTime: '2023-01-09T13:45:39.872Z',
-        __v: 0,
-        createId: 1000002
-    },
-    {
-        permissionList: {
-            checkedKeys: [
-                '60978d6a3c0c8738d016ca5f',
-                '6083f63bc30e1188761493f4',
-                '6069c3f7341306f73b75fbfe',
-                '60979e5a3c0c8738d016ca61',
-                '60a0e80d92ea01921486ecac',
-                '63ecfa68b58729211daea646',
-                '63fe1674db0ea5e72286c4cf',
-                '63fe169adb0ea5e72286c4d5'
-            ],
-            halfCheckedKeys: [
-                '6069bec6b306e7f18dd72efd',
-                '6083d756c30e1188761493f2',
-                '6083d76bc30e1188761493f3',
-                '60979e4d3c0c8738d016ca60',
-                '6272009712eb226fad2f8e93',
-                '6069beb8b306e7f18dd72efc',
-                '6272005812eb226fad2f8e92'
-            ]
-        },
-        _id: '63bc3187300732c27697f1e6',
-        roleName: '测试',
-        remark: '测试',
-        updateTime: '2023-01-09T13:45:39.872Z',
-        createTime: '2023-01-09T13:45:39.872Z',
-        __v: 0,
-        createId: 1000002
-    },
-    {
-        permissionList: {
-            checkedKeys: [],
-            halfCheckedKeys: []
-        },
-        _id: '63fe19d503b115e52a6ac6fe',
-        roleName: '研发经理',
-        updateTime: '2023-02-28T15:12:28.702Z',
-        createTime: '2023-02-28T15:10:15.928Z',
-        __v: 0,
-        createId: 1000002
-    },
-    {
-        permissionList: {
-            checkedKeys: [],
-            halfCheckedKeys: []
-        },
-        _id: '63fe19eb03b115e52a6ac707',
-        roleName: '市场部',
-        updateTime: '2023-02-28T15:10:15.928Z',
-        createTime: '2023-02-28T15:10:15.928Z',
-        __v: 0,
-        createId: 1000002
-    },
-    {
-        permissionList: {
-            checkedKeys: [
-                '6069c3f7341306f73b75fbfe',
-                '60a0e80d92ea01921486ecac',
-                '6069bec6b306e7f18dd72efd',
-                '60a0e81c92ea01921486ecad',
-                '60a0e82592ea01921486ecae',
-                '60a0e83392ea01921486ecaf'
-            ],
-            halfCheckedKeys: []
-        },
-        _id: '63fe19f303b115e52a6ac70b',
-        roleName: '运营部专用',
-        updateTime: '2023-02-28T15:10:15.928Z',
-        createTime: '2023-02-28T15:10:15.928Z',
-        __v: 0,
-        createId: 1000002
-    }
-]
 export default function UserList() {
     const [form] = Form.useForm()
     const [userIds, setUserIds] = useState<number[]>([])
-    const [params, setParams] = useState({})
+    const [dataSource, setDataSource] = useState([])
+    // const [params, setParams] = useState({ pageNum: 20 })
+    const [pagination, setPagination] = useState({
+        current: 1,
+        pageSize: 20
+    })
+    const [total, setTotal] = useState()
     const userRef = useRef<{
         open: (type: IAction, data?: User.UserItem) => void
     }>()
 
-    const getTable = async () => {
-        const data = await axios.get('/user/list')
-        // const data = await api.getUserList(params)
+    const getTable = async (params: PageParams) => {
+        const values = form.getFieldsValue()
+        console.log(values)
+
+        const { data } = await api.getUserList({
+            ...values,
+            pageNum: params?.pageNum,
+            pageSize: params?.pageSize
+        })
         console.log(data)
+        const list: any = Array.from({ length: 51 })
+            .fill({})
+            .map((item: any) => {
+                item = { ...data.list[0] }
+                item.userId = Math.random()
+                return item
+            })
+
+        setDataSource(list)
+        // setDataSource(data.list)
+        setTotal(list.length)
     }
+
+    const handleSearch = () => {
+        const values = form.getFieldsValue()
+        getTable({
+            ...values,
+            pageNum: 1,
+            pageSize: 20
+        })
+    }
+
+    //重置表单
+    const handleReset = () => {
+        form.resetFields()
+        handleSearch()
+    }
+
+    const handlePagination = (page: number, pageSize: number) => {
+        // 点击了页码
+        if (page !== pagination.current) {
+            setPagination({ ...pagination, current: page })
+        }
+        // 点击了分页
+        if (pageSize !== pagination.pageSize) {
+            setPagination({ ...pagination, current: 1, pageSize })
+        }
+    }
+
     useEffect(() => {
-        getTable()
-    })
+        getTable({ pageNum: pagination.current, pageSize: pagination.pageSize })
+    }, [pagination])
 
     // const getTableData = (
     //     { current, pageSize }: { current: number; pageSize: number },
@@ -295,7 +220,13 @@ export default function UserList() {
     ]
     return (
         <div className='user-list'>
-            <SearchForm form={form} initialValues={{ state: 1 }}>
+            <SearchForm
+                form={form}
+                initialValues={{ state: 1 }}
+                submit={handleSearch}
+                reset={handleReset}
+                // sds={}
+            >
                 <Form.Item name='userId' label='用户ID'>
                     <Input placeholder='请输入用户ID' />
                 </Form.Item>
@@ -332,24 +263,36 @@ export default function UserList() {
                 <Table
                     bordered
                     rowKey='userId'
-                    // rowSelection={{
-                    //     type: 'checkbox',
-                    //     selectedRowKeys: userIds,
-                    //     onChange: (selectedRowKeys: React.Key[]) => {
-                    //         setUserIds(selectedRowKeys as number[])
-                    //     }
-                    // }}
+                    rowSelection={{
+                        type: 'checkbox',
+                        selectedRowKeys: userIds,
+                        onChange: (selectedRowKeys: React.Key[]) => {
+                            setUserIds(selectedRowKeys as number[])
+                        }
+                    }}
                     columns={columns}
-                    dataSource={list}
+                    dataSource={dataSource}
+                    pagination={{
+                        position: ['bottomRight'],
+                        // total,
+                        current: pagination.current,
+                        pageSize: pagination.pageSize,
+                        // showQuickJumper: true,
+                        showSizeChanger: true,
+                        showTotal: function (total) {
+                            return `总共：${total}条`
+                        },
+                        onChange: handlePagination
+                    }}
                     // {...tableProps}
                 />
             </div>
-            {/* <CreateUser
-                mRef={userRef}
-                update={() => {
-                    search.reset()
-                }}
-            /> */}
+            <CreateUser
+            // mRef={userRef}
+            // update={() => {
+            //     search.reset()
+            // }}
+            />
         </div>
     )
 }
