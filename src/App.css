@@ -21,6 +21,7 @@
     /* background-color: var(--dark-bg-color); */
     border-radius: 5px;
     color: #000;
+
     .header-wrapper {
         display: flex;
         justify-content: space-between;
