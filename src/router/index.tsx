@@ -14,7 +14,10 @@ import Dashboard from '@/views/Dashboard'
 import Layout from '@/layout/index'
 import Welcome from '@/views/welcome'
 import UserList from '@/views/system/user'
+import DeptList from '@/views/system/dept'
 import Motion from '@/views/motion'
+import MenuList from '@/views/system/menu'
+import AuthLoader from './AuthLoader'
 // import { Layout } from 'antd'
 
 const router = [
@@ -27,7 +30,9 @@ const router = [
         element: <Login />
     },
     {
-        // path: '/layout',
+        // loader处理器会优先执行，可在里面拿到权限信息，再判断
+        id: 'layout',
+        loader: AuthLoader,
         element: <Layout />,
         children: [
             {
@@ -41,6 +46,14 @@ const router = [
             {
                 path: '/userList',
                 element: <UserList />
+            },
+            {
+                path: '/deptList',
+                element: <DeptList />
+            },
+            {
+                path: '/menuList',
+                element: <MenuList />
             },
             {
                 path: '/motion',

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons'
 import { Layout, Menu, theme, Watermark } from 'antd'
 import styles from './index.module.less'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useRouteLoaderData } from 'react-router-dom'
 import NavHeader from '@/components/NavHeader'
 import NavFooter from '@/components/NavFooter'
 import SiderMenu from '@/components/Menu'
@@ -15,6 +15,9 @@ const { Header, Content, Footer, Sider } = Layout
 
 const App: React.FC = () => {
     const { getUserInfo, collapsed } = useStore()
+
+    const _data = useRouteLoaderData('layout')
+    console.log(_data)
 
     useEffect(() => {
         getUserInfo()
