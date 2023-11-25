@@ -40,7 +40,12 @@ const SiderMenu = () => {
                 },
                 {
                     label: '菜单管理',
-                    key: '4',
+                    key: '/welcome',
+                    icon: <MailOutlined />
+                },
+                {
+                    label: '部门管理',
+                    key: '/dept',
                     icon: <MailOutlined />
                 }
             ]

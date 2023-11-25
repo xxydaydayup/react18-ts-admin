@@ -4,6 +4,8 @@ import MyAnimatedComponent from './motion1'
 import MorphingPath from './motion2'
 import CascaderDemo from './cascader'
 import style from './index.module.less'
+import StepsComponent from '@/components/Steps/steps'
+import BeginStepComponent from '@/components/Steps/__begin'
 
 const MyAnimatedCircle = () => {
     return (
@@ -54,12 +56,16 @@ const MyAnimatedRectangle = () => {
 function index() {
     return (
         <div className={style.commonSty}>
-            <MyAnimatedComponent />
+            <div className=' flex flex-col items-center justify-center' style={{ border: '1px solid red' }}>
+                {/* <StepsComponent /> */}
+                <BeginStepComponent />
+            </div>
 
-            <MorphingPath />
-            <MyAnimatedCircle />
             <MyAnimatedRectangle />
             <CascaderDemo />
+            <MyAnimatedCircle />
+            <MorphingPath />
+            <MyAnimatedComponent />
         </div>
     )
 }
